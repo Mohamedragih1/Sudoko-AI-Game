@@ -3,7 +3,9 @@ import sys
 from itertools import product
 sys.path.append('Backend')
 
-from test2 import SudokuSolver
+from Board import Board
+from SudokuSolver import SudokuSolver
+from SudokuGenerator import SudokuGenerator
 
 class SudokuSolverGUI:
     def __init__(self):
@@ -56,8 +58,9 @@ class SudokuSolverGUI:
                 self.screen.blit(text_surface, text_rect)
 
     def solve_sudoku(self):
-        solver = SudokuSolver()
-        solver.initialize_domains(self.puzzle)
+        board = Board(3)
+        board.init_board(self.puzzle)
+        solver = SudokuSolver(board)
         solved = solver.apply_arc_consistency()
 
         if solved:
@@ -68,6 +71,12 @@ class SudokuSolverGUI:
         else:
             print("Failed to solve Sudoku puzzle.")
 
+    def generate_random_puzzle(self):
+        solver = SudokuGenerator(3)
+        puzzle = solver.generate_random_puzzle()
+        self.puzzle = puzzle
+        self.cell_values = [[str(puzzle[i][j]) if puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
+
     def run(self):
         running = True
         while running:
@@ -77,6 +86,8 @@ class SudokuSolverGUI:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.solve_sudoku()
+                    elif event.key == pygame.K_r:
+                        self.generate_random_puzzle()
 
             self.screen.fill(self.bg_color)
             self.draw_grid()

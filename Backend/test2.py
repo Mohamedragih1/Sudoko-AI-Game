@@ -1,4 +1,7 @@
 from itertools import product
+from collections import deque
+import numpy as np
+import random
 
 class SudokuSolver:
     def __init__(self):
@@ -6,7 +9,9 @@ class SudokuSolver:
         self.grid = [[0 for _ in range(9)] for _ in range(9)]
 
     def initialize_domains(self, puzzle):
+        
         self.grid = puzzle
+        print(self.grid)
         for i, j in product(range(9), repeat=2):
             if puzzle[i][j] != 0:
                 self.domains[(i, j)] = {puzzle[i][j]}
@@ -32,18 +37,7 @@ class SudokuSolver:
                 arcs.extend([(var_k, var_i) for var_k in self.get_neighbors(var_i) if var_k != var_j])
         return True
 
-    def get_neighbors(self, var):
-        row, col = var
-        neighbors = set()
-        for i in range(9):
-            neighbors.add((row, i))
-            neighbors.add((i, col))
-        start_row, start_col = (row // 3) * 3, (col // 3) * 3
-        for i in range(start_row, start_row + 3):
-            for j in range(start_col, start_col + 3):
-                neighbors.add((i, j))
-        neighbors.remove(var)
-        return neighbors
+    
 
     def get_solution(self):
         solution = [[0 for _ in range(9)] for _ in range(9)]
@@ -55,4 +49,41 @@ class SudokuSolver:
                 return None
         return solution
 
+    def is_valid_solution(self, solution):
+        for i in range(9):
+            for j in range(9):
+                if not self.is_valid_cell(solution, i, j):
+                    return False
+        return True
 
+    def is_valid_cell(self, solution, row, col):
+        num = solution[row][col]
+        # Check row
+        if any(solution[row][c] == num and c != col for c in range(9)):
+            return False
+        # Check column
+        if any(solution[r][col] == num and r != row for r in range(9)):
+            return False
+        # Check subgrid
+        start_row, start_col = (row // 3) * 3, (col // 3) * 3
+        if any(solution[r][c] == num and (r, c) != (row, col) for r in range(start_row, start_row + 3) for c in range(start_col, start_col + 3)):
+            return False
+        return True
+
+    def generate_random_puzzle(self, num_filled_cells=60):
+        # Initialize an empty grid
+        puzzle = [[0 for _ in range(9)] for _ in range(9)]
+        # Fill num_filled_cells random cells
+        filled_cells = set()
+        while len(filled_cells) < num_filled_cells:
+            row = random.randint(0, 8)
+            col = random.randint(0, 8)
+            if (row, col) not in filled_cells:
+                num = random.randint(1, 9)
+                puzzle[row][col] = num
+                if self.is_valid_cell(puzzle, row, col):
+                    filled_cells.add((row, col))
+                else:
+                    puzzle[row][col] = 0
+
+        return puzzle
