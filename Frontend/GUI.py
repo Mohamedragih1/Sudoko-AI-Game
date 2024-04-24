@@ -1,11 +1,11 @@
 import pygame
 import sys
 from itertools import product
+import numpy as np
 sys.path.append('Backend')
 
 from Board import Board
-from SudokuSolver import SudokuSolver
-from SudokuGenerator import SudokuGenerator
+import SudokuSolver 
 
 class SudokuSolverGUI:
     def __init__(self):
@@ -25,17 +25,7 @@ class SudokuSolverGUI:
         self.grid_offset_x = (self.screen_width - self.cell_size * 9) // 2
         self.grid_offset_y = (self.screen_height - self.cell_size * 9) // 2
 
-        self.puzzle = [
-            [5, 3, 0, 0, 7, 0, 0, 0, 0],
-            [6, 0, 0, 1, 9, 5, 0, 0, 0],
-            [0, 9, 8, 0, 0, 0, 0, 6, 0],
-            [8, 0, 0, 0, 6, 0, 0, 0, 3],
-            [4, 0, 0, 8, 0, 3, 0, 0, 1],
-            [7, 0, 0, 0, 2, 0, 0, 0, 6],
-            [0, 6, 0, 0, 0, 0, 2, 8, 0],
-            [0, 0, 0, 4, 1, 9, 0, 0, 5],
-            [0, 0, 0, 0, 8, 0, 0, 7, 9]
-        ]
+        self.generate_random_puzzle(3, 30)
 
         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
 
@@ -58,24 +48,15 @@ class SudokuSolverGUI:
                 self.screen.blit(text_surface, text_rect)
 
     def solve_sudoku(self):
-        board = Board(3)
-        board.init_board(self.puzzle)
-        solver = SudokuSolver(board)
-        solved = solver.apply_arc_consistency()
+        solved = self.solution
 
-        if solved:
-            solution = solver.get_solution()
-            for i in range(9):
-                for j in range(9):
-                    self.cell_values[i][j] = str(solution[i][j])
-        else:
-            print("Failed to solve Sudoku puzzle.")
+        for i in range(9):
+            for j in range(9):
+                self.cell_values[i][j] = str(solved[i][j])
 
-    def generate_random_puzzle(self):
-        solver = SudokuGenerator(3)
-        puzzle = solver.generate_random_puzzle()
-        self.puzzle = puzzle
-        self.cell_values = [[str(puzzle[i][j]) if puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
+    def generate_random_puzzle(self, dim, visible):
+        self.puzzle, self.solution = SudokuSolver.generate_random_puzzle(dim,visible)
+        self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
 
     def run(self):
         running = True
@@ -87,7 +68,7 @@ class SudokuSolverGUI:
                     if event.key == pygame.K_SPACE:
                         self.solve_sudoku()
                     elif event.key == pygame.K_r:
-                        self.generate_random_puzzle()
+                        self.generate_random_puzzle(3, 10)
 
             self.screen.fill(self.bg_color)
             self.draw_grid()
