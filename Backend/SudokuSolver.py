@@ -2,6 +2,7 @@ import numpy as np
 from itertools import product
 import random
 from Board import Board
+from copy import deepcopy
 
 def revise_domain(board:Board, var_i, var_j):
     revised = False
@@ -46,33 +47,39 @@ def count_constraints(board:Board, var, value):
 def solve_with_backtracking(board: Board):
     if not apply_arc_consistency(board):
         return None  # No solution possible after arc consistency
+    steps = []
+    def backtrack(board: Board, steps):
 
-    def backtrack(board: Board):
         unassigned_vars = [var for var in board.domains if len(board.domains[var]) > 1]
         if not unassigned_vars:
             return True  # No unassigned variables left, solution found
         
         var = select_variable_mrv(board)  # Get next variable to assign using MRV
         for value in select_value_lcv(board, var):
+        # for value in board.domains[var]:
             if is_valid(board, var, value):
+                board_temp = deepcopy(board)
                 board.domains[var] = {value}  # Assign the value
                 board.board[var] = value
-                if apply_arc_consistency(board) is not None:
-                    if backtrack(board):
+                steps.append((deepcopy(board), var, value))
+                
+                if apply_arc_consistency(board):
+                    if backtrack(board, steps):
                         return True  # If this assignment leads to a solution, return True
-                board.domains[var].add(value)  # Undo assignment for backtracking
-                board.board[var] = 0
+                board = board_temp
+                steps.append((deepcopy(board), var, value))
                 
         return False  # No valid value found for this variable
-
-    if backtrack(board):
+    
+    if backtrack(board, steps):
         solution = np.zeros((board.dim, board.dim), dtype=np.uint8)
+        
         for var in board.domains:
             row, col = var
             solution[row][col] = next(iter(board.domains[var]))
-        return solution
+        return solution, steps
     else:
-        return None  # No solution found
+        return None, steps  # No solution found
 
 def generate_random_puzzle(dim, visible_count):
     empty_board = np.zeros((dim*3, dim*3), dtype=int)
@@ -81,7 +88,7 @@ def generate_random_puzzle(dim, visible_count):
     
     board = Board(3, empty_board)
     
-    empty_board = get_solution(board)  # Fill in initial values using backtracking
+    empty_board, steps = get_solution(board)  # Fill in initial values using backtracking
     solution = empty_board.copy()
     
     # Randomly select cells to keep visible
@@ -89,7 +96,7 @@ def generate_random_puzzle(dim, visible_count):
     for cell in visible_cells:
         empty_board[cell] = 0
 
-    return empty_board, solution
+    return empty_board, solution, steps
 
 def get_solution(board:Board):
     return solve_with_backtracking(board)
