@@ -8,7 +8,7 @@ sys.path.append('Backend')
 from Board import Board
 import SudokuSolver 
 
-class SudokuSolverGUI2:
+class SudokuSolverGUI3:
     def __init__(self):
         pygame.init()
         self.screen_width = 600

@@ -4,6 +4,8 @@ sys.path.append('Frontend')
 
 from GUI import SudokuSolverGUI
 from GUI2 import SudokuSolverGUI2
+from GUI3 import SudokuSolverGUI3
+
 pygame.init()
 
 WINDOW_WIDTH = 400
@@ -48,7 +50,8 @@ def main():
                     gui = SudokuSolverGUI2()
                     gui.run()
                 elif button3_rect.collidepoint(mouse_pos):
-                    print("Button 3 clicked")
+                    gui = SudokuSolverGUI3()
+                    gui.run()
 
         
         window.fill(violet)
