@@ -19,6 +19,8 @@ class SudokuSolverGUI3:
 
         self.grid_x = 0
         self.grid_y = 0
+        self.green_cells = []
+        self.red_cells = []
         
         # Set colors
         self.bg_color = (255, 255, 255)  # White background
@@ -61,7 +63,23 @@ class SudokuSolverGUI3:
             border_rect = pygame.Rect(self.grid_offset_x + self.grid_x * self.cell_size,
                                             self.grid_offset_y + self.grid_y * self.cell_size,
                                             self.cell_size, self.cell_size)
-            pygame.draw.rect(self.screen, (255, 0, 0), border_rect, 3)  # Red border, thickness 3
+            pygame.draw.rect(self.screen, (0, 0, 255), border_rect, 3)  # Red border, thickness 3
+         
+        for j,i in self.green_cells:
+                    cell_rect = pygame.Rect(self.grid_offset_x + i * self.cell_size,
+                                        self.grid_offset_y + j * self.cell_size,
+                                        self.cell_size, self.cell_size)
+                    pygame.draw.rect(self.screen, (0, 255, 0), cell_rect)  # Red background
+                    border_rect = cell_rect.inflate(-3, -3)  # Shrink the cell size for the border
+                    pygame.draw.rect(self.screen, (0, 0, 0), border_rect, 3)  # Red border, thickness 3
+            
+        for j, i in self.red_cells:
+            cell_rect = pygame.Rect(self.grid_offset_x + i * self.cell_size,
+                                    self.grid_offset_y + j * self.cell_size,
+                                    self.cell_size, self.cell_size)
+            pygame.draw.rect(self.screen, (255, 0, 0), cell_rect)  # Red background
+            border_rect = cell_rect.inflate(-3, -3)  # Shrink the cell size for the border
+            pygame.draw.rect(self.screen, (0, 0, 0), border_rect, 3)  # Red border, thickness 3 
                 
     def draw_numbers(self):
         for i, j in product(range(9), repeat=2):
@@ -80,8 +98,13 @@ class SudokuSolverGUI3:
         
         solved = self.solution    
 
-        for board, var, val in self.steps:
-            self.cell_values[var[0]][var[1]] = str(val)     
+        for board, var, val, color in self.steps:
+            self.cell_values[var[0]][var[1]] = str(val)   
+            if color == 'a':
+                self.green_cells = [var]
+            if color == 'r':
+                self.red_cells = [var]
+                  
             self.screen.fill(self.bg_color)
             self.draw_grid()
             self.draw_numbers()
@@ -93,6 +116,9 @@ class SudokuSolverGUI3:
                 self.cell_values[i][j] = str(solved[i][j])
         
     def solve_step(self):
+        self.grid_x = -1
+        self.grid_y = -1
+        
         if self.solution is None:
             board = Board(3, self.puzzle)
             self.solution, self.steps = SudokuSolver.get_solution(board)
@@ -103,6 +129,13 @@ class SudokuSolverGUI3:
             board = self.steps[self.step_count][0]
             var = self.steps[self.step_count][1]
             val = self.steps[self.step_count][2]
+            color = self.steps[self.step_count][3]
+
+            if color == 'a':
+                self.green_cells = [var]
+            if color == 'r':
+                self.red_cells = [var]
+                
             self.cell_values[var[0]][var[1]] = str(val) 
             #self.puzzle[var[0]][var[1]] = val
             print("--------------------------")
@@ -124,6 +157,31 @@ class SudokuSolverGUI3:
         self.puzzle, self.solution, self.steps = SudokuSolver.generate_random_puzzle(dim,visible)
         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
 
+    def move_by_one(self):
+        self.grid_x += 1
+        
+        if self.grid_x == 9:
+            self.grid_x = 0
+            self.grid_y += 1
+
+        if self.grid_y == 9:
+            self.grid_y = 0
+    
+    def check_board(self):
+        board = Board(3, self.puzzle)
+        # SudokuSolver.apply_arc_consistency(board)
+        self.red_cells = []
+        # SudokuSolver.is_valid()
+        # for var in board.domains:
+        #     if len(board.domains[var]) == 0:
+                # self.red_cells.append(var)
+        for i in range(0,9):
+            for j in range(0,9):
+                if (board.board[i][j] == 0):
+                    continue
+                if SudokuSolver.is_valid(board, (i,j), board.board[i][j]) is False:
+                    self.red_cells.append((i,j))
+             
     def run(self):
         running = True
         while running:
@@ -135,15 +193,22 @@ class SudokuSolverGUI3:
                         self.solve_sudoku()
                     elif event.key == pygame.K_r:
                         self.generate_random_puzzle(3, 30)
+                    elif event.key == pygame.K_c:
+                        self.puzzle = np.zeros((9,9), dtype=np.uint8)
+                        self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
                     elif event.key == pygame.K_s:
                         self.solve_step()     
-                
+                    elif event.key == pygame.K_TAB:
+                        self.move_by_one()
+                    
                     elif event.key in [pygame.K_0, pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5,
                             pygame.K_6, pygame.K_7, pygame.K_8, pygame.K_9]:
                             digit = int(pygame.key.name(event.key))            
                             # Set the clicked cell value
                             self.cell_values[self.grid_y][self.grid_x] = str(digit)
                             self.puzzle[self.grid_y][self.grid_x] = digit
+                            # self.move_by_one()
+                            self.check_board()
                             
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:  # Left mouse button
