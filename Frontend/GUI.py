@@ -26,20 +26,8 @@ class SudokuSolverGUI:
         self.grid_offset_x = (self.screen_width - self.cell_size * 9) // 2
         self.grid_offset_y = (self.screen_height - self.cell_size * 9) // 2
 
-        # self.generate_random_puzzle(3, 30)
-        self.puzzle = np.array([
-                [0,0,0,0,0,4,7,0,8],
-                [0,0,0,0,0,8,0,0,3],
-                [0,0,0,2,1,5,0,0,0],
-                [0,0,7,0,0,0,0,9,6],
-                [8,0,0,0,9,0,0,0,0],
-                [0,0,4,1,0,0,0,0,0],
-                [0,1,0,0,4,0,5,0,0],
-                [0,0,0,0,0,0,2,0,0],
-                [2,5,0,0,0,0,0,8,0]
-                ])
-        self.solution = None
-        self.steps = None
+        self.generate_random_puzzle(3, 30)
+
         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
 
         self.font = pygame.font.Font(None, 48)
@@ -61,32 +49,15 @@ class SudokuSolverGUI:
                 self.screen.blit(text_surface, text_rect)
 
     def solve_sudoku(self):
-        
-        if self.solution is None:
-            board = Board(3, self.puzzle)
-            self.solution, self.steps = SudokuSolver.get_solution(board)
-        
         solved = self.solution
-        
-        for board, var, val in self.steps:
-            self.cell_values[var[0]][var[1]] = str(val) 
-            print("--------------------------")
-            print(f"Domain {self.count}")
-            print(board.domains)    
-            self.screen.fill(self.bg_color)
-            self.draw_grid()
-            self.draw_numbers()
-            pygame.display.flip()
-            self.clock.tick(10)
-            self.count+=1
-        print()
+
         for i in range(9):
             for j in range(9):
                 self.cell_values[i][j] = str(solved[i][j])
         
 
     def generate_random_puzzle(self, dim, visible):
-        self.puzzle, self.solution, self.steps = SudokuSolver.generate_random_puzzle(dim,visible)
+        self.puzzle, self.solution = SudokuSolver.generate_random_puzzle(dim,visible)
         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
 
 
