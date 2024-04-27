@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 from itertools import product
@@ -8,7 +9,7 @@ sys.path.append('Backend')
 from Board import Board
 import SudokuSolver 
 
-class SudokuSolverGUI2:
+class SudokuSolverGUI3:
     def __init__(self):
         pygame.init()
         self.screen_width = 600
@@ -166,7 +167,22 @@ class SudokuSolverGUI2:
 
         if self.grid_y == 9:
             self.grid_y = 0
-            
+    
+    def check_board(self):
+        board = Board(3, self.puzzle)
+        # SudokuSolver.apply_arc_consistency(board)
+        self.red_cells = []
+        # SudokuSolver.is_valid()
+        # for var in board.domains:
+        #     if len(board.domains[var]) == 0:
+                # self.red_cells.append(var)
+        for i in range(0,9):
+            for j in range(0,9):
+                if (board.board[i][j] == 0):
+                    continue
+                if SudokuSolver.is_valid(board, (i,j), board.board[i][j]) is False:
+                    self.red_cells.append((i,j))
+             
     def run(self):
         running = True
         while running:
@@ -176,6 +192,8 @@ class SudokuSolverGUI2:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.solve_sudoku()
+                    elif event.key == pygame.K_r:
+                        self.generate_random_puzzle(3, 30)
                     elif event.key == pygame.K_c:
                         self.puzzle = np.zeros((9,9), dtype=np.uint8)
                         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
@@ -183,16 +201,15 @@ class SudokuSolverGUI2:
                         self.solve_step()     
                     elif event.key == pygame.K_TAB:
                         self.move_by_one()
-                        
+                    
                     elif event.key in [pygame.K_0, pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5,
                             pygame.K_6, pygame.K_7, pygame.K_8, pygame.K_9]:
                             digit = int(pygame.key.name(event.key))            
                             # Set the clicked cell value
                             self.cell_values[self.grid_y][self.grid_x] = str(digit)
                             self.puzzle[self.grid_y][self.grid_x] = digit
-                            self.move_by_one()
-                            
-                            
+                            # self.move_by_one()
+                            self.check_board()
                             
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:  # Left mouse button

@@ -61,13 +61,14 @@ def solve_with_backtracking(board: Board):
                 board_temp = deepcopy(board)
                 board.domains[var] = {value}  # Assign the value
                 board.board[var] = value
-                steps.append((deepcopy(board), var, value))
+                steps.append((deepcopy(board), var, value, 'a'))
                 
                 if apply_arc_consistency(board):
                     if backtrack(board, steps):
                         return True  # If this assignment leads to a solution, return True
+                    
                 board = board_temp
-                steps.append((deepcopy(board), var, value))
+                steps.append((deepcopy(board), var, value, 'r'))
                 
         return False  # No valid value found for this variable
     
@@ -75,8 +76,13 @@ def solve_with_backtracking(board: Board):
         solution = np.zeros((board.dim, board.dim), dtype=np.uint8)
         
         for var in board.domains:
+            if len(board.domains[var]) > 1 or len(board.domains[var]) < 1:
+                board.domains[var] = 0
             row, col = var
-            solution[row][col] = next(iter(board.domains[var]))
+            try:
+                solution[row][col] = next(iter(board.domains[var]))
+            except:
+                pass
         return solution, steps
     else:
         return None, steps  # No solution found

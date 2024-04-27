@@ -38,5 +38,3 @@ def input_window():
         screen.fill(WHITE)
         draw_text(screen, "Input: " + input_text, BLACK, 10, 10)
         pygame.display.flip()
-
-
