@@ -4,6 +4,7 @@ import sys
 from itertools import product
 import numpy as np
 from window import input_window
+import time
 sys.path.append('Backend')
 
 from Board import Board
@@ -191,7 +192,10 @@ class SudokuSolverGUI3:
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+                        start_time = time.time()
                         self.solve_sudoku()
+                        end_time = time.time()
+                        print("time = ",(end_time-start_time))
                     elif event.key == pygame.K_r:
                         self.generate_random_puzzle(3, 30)
                     elif event.key == pygame.K_c:

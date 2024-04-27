@@ -3,6 +3,7 @@ import sys
 from itertools import product
 import numpy as np
 from window import input_window
+import time
 sys.path.append('Backend')
 
 from Board import Board
@@ -175,7 +176,10 @@ class SudokuSolverGUI2:
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+                        start_time = time.time()
                         self.solve_sudoku()
+                        end_time = time.time()
+                        print("time = ",(end_time-start_time))
                     elif event.key == pygame.K_c:
                         self.puzzle = np.zeros((9,9), dtype=np.uint8)
                         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]

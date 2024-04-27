@@ -55,11 +55,12 @@ def solve_with_backtracking(board: Board):
             return True  # No unassigned variables left, solution found
         
         var = select_variable_mrv(board)  # Get next variable to assign using MRV
+        original_domains = deepcopy(board.domains)
+
         for value in select_value_lcv(board, var):
         # for value in board.domains[var]:
             if is_valid(board, var, value):
-                board_temp = deepcopy(board)
-                board.domains[var] = {value}  # Assign the value
+                board.domains[var] = {value}  
                 board.board[var] = value
                 steps.append((deepcopy(board), var, value, 'a'))
                 
@@ -67,22 +68,17 @@ def solve_with_backtracking(board: Board):
                     if backtrack(board, steps):
                         return True  # If this assignment leads to a solution, return True
                     
-                board = board_temp
+                board.domains = deepcopy(original_domains)
+                board.board[var] = 0
                 steps.append((deepcopy(board), var, value, 'r'))
                 
         return False  # No valid value found for this variable
     
     if backtrack(board, steps):
         solution = np.zeros((board.dim, board.dim), dtype=np.uint8)
-        
         for var in board.domains:
-            if len(board.domains[var]) > 1 or len(board.domains[var]) < 1:
-                board.domains[var] = 0
             row, col = var
-            try:
-                solution[row][col] = next(iter(board.domains[var]))
-            except:
-                pass
+            solution[row][col] = next(iter(board.domains[var]))
         return solution, steps
     else:
         return None, steps  # No solution found
