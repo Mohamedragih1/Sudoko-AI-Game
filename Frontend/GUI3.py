@@ -235,13 +235,27 @@ class SudokuSolverGUI3:
         self.cell_values = [[str(self.puzzle[i][j]) if self.puzzle[i][j] != 0 else "" for j in range(9)] for i in range(9)]
 
     def move_by_one(self):
-        self.grid_x += 1
-        
-        if self.grid_x == 9:
-            self.grid_x = 0
+        self.move_dir("right")
+    
+    def move_dir(self, direction):
+        if direction == "up":
+            self.grid_y -= 1
+        elif direction == "down":
             self.grid_y += 1
+        elif direction == "left":
+            self.grid_x -= 1
+        elif direction == "right":
+            self.grid_x += 1
 
-        if self.grid_y == 9:
+        # Wrap around the grid if needed
+        if self.grid_x < 0:
+            self.grid_x = 8
+        elif self.grid_x > 8:
+            self.grid_x = 0
+
+        if self.grid_y < 0:
+            self.grid_y = 8
+        elif self.grid_y > 8:
             self.grid_y = 0
             
     def check_board(self):
@@ -270,6 +284,15 @@ class SudokuSolverGUI3:
                         self.solve_sudoku()
                         end_time = time.time()
                         print("time = ",(end_time-start_time))
+                    elif event.key in [pygame.K_DOWN, pygame.K_UP, pygame.K_RIGHT, pygame.K_LEFT]:
+                        if event.key == pygame.K_DOWN:
+                            self.move_dir("down")
+                        elif event.key == pygame.K_UP:
+                            self.move_dir("up")
+                        elif event.key == pygame.K_RIGHT:
+                            self.move_dir("right")
+                        elif event.key == pygame.K_LEFT:
+                            self.move_dir("left")
                     elif event.key == pygame.K_c:
                         self.init_board = None
                         self.steps = None

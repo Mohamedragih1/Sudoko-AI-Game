@@ -28,12 +28,27 @@
 \tableofcontents
 
 \section{Introduction}
-This is basic Sudoku game with 3 modes.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{GUI.png}
     \caption{Sudoku game GUI}
 \end{figure}
+\newpage
+Sudoku can be formulated as a Constraint Satisfaction Problem (CSP) with the following components:
+
+\begin{itemize}
+  \item \textbf{Variables}: Each cell in the Sudoku grid represents a variable that needs to be assigned a value from the domain $\{1, 2, 3, 4, 5, 6, 7, 8, 9\}$. Hence, a standard Sudoku puzzle has 81 variables.
+  
+  \item \textbf{Domains}: The domain of each variable is restricted to the set $\{1, 2, 3, 4, 5, 6, 7, 8, 9\}$ because each cell can only hold one digit.
+  
+  \item \textbf{Constraints}: The constraints in Sudoku are that no two cells in the same row, column, or block can have the same value. This constraint ensures that each digit appears exactly once in each row, column, and block.
+  
+  \item \textbf{Solution}: A solution to the Sudoku CSP is an assignment of values to all variables (cells) such that the constraints are satisfied.
+\end{itemize}
+
+To solve Sudoku as a CSP, various algorithms can be applied, such as backtracking search with constraint propagation techniques like forward checking or maintaining arc consistency. These algorithms systematically explore the search space of possible assignments until a valid solution is found.
+
+
 \section{Data structure}
 \subsection*{Array}
 Used to represent Sudoku board.
@@ -43,6 +58,25 @@ Used to represent the domain of each cell.
 Used to represent a single cell domain.
 \subsection*{Queue}
 Used to represent the arcs.
+
+\section{Algorithms}
+\subsection*{Backtracking}
+\begin{itemize}
+  \item Time complexity: $O(d^n)$
+  \item Explanation: The time complexity of backtracking in the context of Sudoku solving is typically represented as $O(d^n)$, where $d$ is the depth of the search tree (the number of possibilities for each decision), and $n$ is the number of empty cells or variables that need to be filled. This exponential complexity can be mitigated by using heuristics like Minimum Remaining Values (MRV), Least Constraining Value (LCV), and constraint propagation techniques such as forward checking or maintaining arc consistency.
+\end{itemize}
+\newpage
+\subsection*{Arc Consistency}
+\begin{itemize}
+  \item Time complexity (AC-3): $O(ed^3)$
+  \item Explanation: Applying arc consistency to a Constraint Satisfaction Problem (CSP) involves checking and reducing the domains of variables based on constraints. The time complexity of AC-3 algorithms is $O(ed^3)$, where $e$ is the number of edges in the constraint graph and $d$ is the maximum domain size. The cubic factor arises from the need to check and update domains iteratively. 
+\end{itemize}
+
+\subsection*{LCV (Least Constraining Value)}
+LCV is a variable ordering heuristic in CSPs that prioritizes assigning values to variables with the least impact on neighboring variables' domains. It helps reduce the branching factor by making informed decisions during variable assignment.
+
+\subsection*{MRV (Minimum Remaining Values)}
+MRV is a variable ordering heuristic that prioritizes variables with the fewest remaining values in their domains. It aims to handle more constrained variables early in the search, reducing the search space and potentially pruning the search tree faster.
 
 
 \section{Results}
@@ -71,104 +105,5 @@ Used to represent the arcs.
     \item Time: 0.0128
 \end{itemize}
 
-% those are the result of our code each run shows the game board and corresponding minimax trees.
-% \subsection*{at k = 1}
-% \subsubsection*{Normal minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{testcase.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 48
-%     \item Time: 0.004051923751831055
-% \end{itemize}
-% \subsubsection*{Pruning minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{pruning1.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 48
-%     \item Time: 0.0041010379791259766
-% \end{itemize}
-% \subsubsection*{Expectation minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{testcase.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 48
-%     \item Time: 0.003995418548583984
-% \end{itemize}
-% \subsection*{at k = 3}
-% \subsubsection*{Normal minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{testcase3.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 2631
-%     \item Time: 0.12168431282043457
-% \end{itemize}
-% \subsubsection*{Pruning minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{pruning3.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 1056
-%     \item Time: 0.04659581184387207
-% \end{itemize}
-% \subsubsection*{Expectation minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{testcase.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 1056
-%     \item Time: 0.04659581184387207
-% \end{itemize}
-% \subsection*{at k = 5}
-% \subsubsection*{Normal minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{testcase5.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 62621
-%     \item Time: 1.756775140762329
-% \end{itemize}
-% \subsubsection*{Pruning minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{pruning4.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 11710
-%     \item Time: 0.6393032073974609
-% \end{itemize}
-% \subsubsection*{Expectation minimax}
-% \begin{center}
-%     \includegraphics[width=0.8\linewidth]{testcase.png}
-% \end{center}
-% \begin{itemize}
-%     \item Nodes: 11710
-%     \item Time: 0.6393032073974609
-% \end{itemize}
-\newpage
-\section{Conclusion}
-From our result we can compare different minimax approach at different K values.
-
-% \subsection*{at K = 1}
-% \subsubsection*{Normal minimax}
-% \subsubsection*{Pruning minimax}
-% \subsubsection*{Expectation minimax}
-% \subsection*{at K = 3}
-% \subsubsection*{Normal minimax}
-% \subsubsection*{Pruning minimax}
-% \subsubsection*{Expectation minimax}
-% \subsection*{at K = 5}
-% \subsubsection*{Normal minimax}
-% \subsubsection*{Pruning minimax}
-% \subsubsection*{Expectation minimax}
-\subsection*{In General}
-\subsubsection*{Normal minimax}
-It is the worst of them because It has to check losing move also it is not important no more (due to a better move is available).
-\subsubsection*{Pruning minimax}
-It is better version of normal minimax (minimax without alpha beta Pruning) due to the pruning process.
-\subsubsection*{Expectation minimax}
-It is slightly better then Pruning minimax.
 
 \end{document}

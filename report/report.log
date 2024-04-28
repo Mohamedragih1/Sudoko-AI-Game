@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.2.2)  28 APR 2024 09:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.2.2)  28 APR 2024 12:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -394,7 +394,7 @@ Package hyperref Info: Link coloring OFF on input line 26.
 <./images/GUI.png, id=23, 525.162pt x 434.22224pt>
 File: ./images/GUI.png Graphic file (type png)
 <use ./images/GUI.png>
-Package pdftex.def Info: ./images/GUI.png  used on input line 34.
+Package pdftex.def Info: ./images/GUI.png  used on input line 33.
 (pdftex.def)             Requested size: 328.82707pt x 271.88515pt.
  [1
 
@@ -402,59 +402,59 @@ Package pdftex.def Info: ./images/GUI.png  used on input line 34.
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.40 \subsection
-                *{Hast table} <./images/GUI.png>]
-<./images/easy.png, id=38, 744.98325pt x 443.256pt>
+l.36 \newpage
+              <./images/GUI.png>] [2]
+<./images/easy.png, id=51, 744.98325pt x 443.256pt>
 File: ./images/easy.png Graphic file (type png)
 <use ./images/easy.png>
-Package pdftex.def Info: ./images/easy.png  used on input line 51.
+Package pdftex.def Info: ./images/easy.png  used on input line 85.
 (pdftex.def)             Requested size: 375.80544pt x 223.6024pt.
-<./images/easy_sample.png, id=39, 1106.33325pt x 268.6035pt>
+<./images/easy_sample.png, id=52, 1106.33325pt x 268.6035pt>
 File: ./images/easy_sample.png Graphic file (type png)
 <use ./images/easy_sample.png>
-Package pdftex.def Info: ./images/easy_sample.png  used on input line 52.
+Package pdftex.def Info: ./images/easy_sample.png  used on input line 86.
 (pdftex.def)             Requested size: 375.80544pt x 91.242pt.
-<./images/Medium.png, id=40, 751.00575pt x 440.847pt>
+<./images/Medium.png, id=53, 751.00575pt x 440.847pt>
 File: ./images/Medium.png Graphic file (type png)
 <use ./images/Medium.png>
-Package pdftex.def Info: ./images/Medium.png  used on input line 59.
+Package pdftex.def Info: ./images/Medium.png  used on input line 93.
 (pdftex.def)             Requested size: 375.80544pt x 220.59784pt.
-<./images/Medium_sample.png, id=41, 1106.33325pt x 290.2845pt>
+<./images/Medium_sample.png, id=54, 1106.33325pt x 290.2845pt>
 File: ./images/Medium_sample.png Graphic file (type png)
 <use ./images/Medium_sample.png>
-Package pdftex.def Info: ./images/Medium_sample.png  used on input line 60.
+Package pdftex.def Info: ./images/Medium_sample.png  used on input line 94.
 (pdftex.def)             Requested size: 375.80544pt x 98.60683pt.
- [2 <./images/easy.png> <./images/easy_sample.png>]
-<./images/VeryHard.png, id=54, 732.93825pt x 433.62pt>
+ [3 <./images/easy.png> <./images/easy_sample.png>]
+<./images/VeryHard.png, id=66, 732.93825pt x 433.62pt>
 File: ./images/VeryHard.png Graphic file (type png)
 <use ./images/VeryHard.png>
-Package pdftex.def Info: ./images/VeryHard.png  used on input line 67.
+Package pdftex.def Info: ./images/VeryHard.png  used on input line 101.
 (pdftex.def)             Requested size: 375.80544pt x 222.34085pt.
-<./images/VeryHard_sample.png, id=55, 1103.322pt x 377.61075pt>
+<./images/VeryHard_sample.png, id=67, 1103.322pt x 377.61075pt>
 File: ./images/VeryHard_sample.png Graphic file (type png)
 <use ./images/VeryHard_sample.png>
-Package pdftex.def Info: ./images/VeryHard_sample.png  used on input line 68.
+Package pdftex.def Info: ./images/VeryHard_sample.png  used on input line 102.
 (pdftex.def)             Requested size: 375.80544pt x 128.61642pt.
- [3 <./images/Medium.png> <./images/Medium_sample.png>] [4 <./images/VeryHard.png> <./images/VeryHard_sample.png>] [5] (report.aux)
+ [4 <./images/Medium.png> <./images/Medium_sample.png>] [5 <./images/VeryHard.png> <./images/VeryHard_sample.png>] (report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 6E195AB53E8BA862EAD4569F7B73F425;390.
+(rerunfilecheck)             Checksum: 2DD3FD7A7DCA465FDBE521C542441F2F;390.
  ) 
 Here is how much of TeX's memory you used:
- 11708 strings out of 474542
- 179733 string characters out of 5744527
- 1929978 words of memory out of 5000000
- 33784 multiletter control sequences out of 15000+600000
- 563333 words of font info for 54 fonts, out of 8000000 for 9000
+ 11710 strings out of 474542
+ 179761 string characters out of 5744527
+ 1931978 words of memory out of 5000000
+ 33786 multiletter control sequences out of 15000+600000
+ 563787 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,14n,79p,327b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\abdal\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on report.pdf (5 pages, 1313245 bytes).
+ 75i,14n,79p,600b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\abdal\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/abdal/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on report.pdf (5 pages, 1353686 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
+ 130 PDF objects out of 1000 (max. 8388607)
  23 named destinations out of 1000 (max. 500000)
  68 words of extra memory for PDF output out of 10000 (max. 10000000)
 
