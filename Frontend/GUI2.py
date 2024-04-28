@@ -171,10 +171,10 @@ class SudokuSolverGUI2:
 
     def solve_step(self):
         self.grid_x = -1
-        if (self.init_board == None):
+        if (self.init_board is None):
             self.init_board = deepcopy(self.puzzle)
             
-        if (self.steps == None):
+        if (self.steps is None):
             board = Board(3, self.puzzle)
             self.solution, self.steps = SudokuSolver.get_solution(board)
 
@@ -193,7 +193,7 @@ class SudokuSolverGUI2:
             self.red_cells = []
             self.current_var = var
             
-            arcs, domains = SudokuSolver.apply_arc_consistency(board)
+            arcs, domains = SudokuSolver.apply_arc_consistency_one_var(board)
             for var_i, var_j, removed in arcs:
                 print(var_i," -> ",var_j, ": ", removed)
                 
@@ -257,6 +257,7 @@ class SudokuSolverGUI2:
                         print("time = ",(end_time-start_time))
                     elif event.key == pygame.K_c:
                         self.init_board = None
+                        self.steps = None
                         self.grid_x = -1
                         self.current_var = (-1,-1)   
                         self.green_cells = []
